@@ -13,7 +13,8 @@
 		"ext-imagick": "*"
 	},
 	"require-dev": {
-		"coldtrick/sniffs": "dev-master"
+		"coldtrick/sniffs": "dev-master",
+		"coldtrick/releases": "dev-master"
 	},
 	"conflict": {
 		"elgg/elgg": "<2.2"

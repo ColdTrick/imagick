@@ -1,0 +1,50 @@
+# PHP project
+language: php
+
+# which versions of PHP to build with
+php:
+- 5.6
+
+# set global environment variables
+env:
+  global:
+    # make PROJECTNAME from vendor/project
+    # this strips everything before the last /
+    - PROJECTNAME=${TRAVIS_REPO_SLUG##*/}
+
+# make sure we have the latest version of composer
+before_install:
+- composer self-update
+
+# install dependencies
+install:
+- composer install
+
+# no phpunit tests (yet)
+script: true
+
+# no email notifications
+notifications:
+  email: false
+
+# before deployment make the zipfile to upload
+before_deploy:
+ # execute release prepare script
+ - sh ./vendor/coldtrick/releases/scripts/travis/before_deploy.sh
+
+# deployment settings
+deploy:
+  provider: releases
+  api_key:
+    secure: sC4oDHnbcj0ERAfMVPMQKpgT9LOa19FkcW/RgDZwNXwBFIqgbIvymSOJrgciKMVUICm6rTfU5p8t/mrDFl/gNju827Vv9HIoNLuryyWCwpV9dmi/uC7zpV0dcnCuIYEeYIfDR9ehy5/skVy10NtSx4tbLlhTBmvfTnARvReY5tWxH4z4de1kLd9nIxzM0/wpxQz4/j8jMbZMG8mMEgs6YWxlFoxyyd3l9MsnWKtBywqHLvcPiIxhFCDxCCvxofZvfv9UupLE131UhUwsz39mkF1coSeL+aN93+iUClYgUQZbZWEtLKeQt3DLKnHVpxaW+2bKgAi9zYnPyz24aHV7Csp7P5PJAgSx/WpfOas/GZmOaMtUfErj/G/jTxJksuz54x94ECXJAGnzK9J0NG5pQtsB2OBBAAKTGC5aWM2Z0urg+WwY3C/tAnJfplQLncWKboHstJpvwsS47mSz6UFW7/d7pNyR1Qx0QmUIeNxj4Rdg/vvLGSbWse8b6bwsle/Xmn2VNUvRFlZbuWHTqrjeO1FKEEFQNIzowEkzT+7yn8L5KsrHnqr03fHOk+VCa2/vvZ1xtWZgX5a9gZ2FkAmnt73Tiqn87bjzvSpzDS9vzx2fhQ9LVY4Wdo36XrYtGQaZH4dPJH/hfUFLEh3sX5E5I4rhw29VBekBDeMace+7/9U=
+  # name of the zip to upload
+  file: ${PROJECTNAME}_$TRAVIS_TAG.zip
+  skip_cleanup: true
+  on:
+    # only when a tag is created in GitHub
+    tags: true
+    all_branches: true
+
+after_deploy:
+ # execute release after script
+ - sh ./vendor/coldtrick/releases/scripts/travis/after_deploy.sh
