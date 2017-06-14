@@ -3,7 +3,7 @@
 	<name>Imagick</name>
 	<id>imagick</id>
 	<author>ColdTrick IT Solutions</author>
-	<version>0.1</version>
+	<version>1.0</version>
 	<description>Replace the default GD image handling by Imagick</description>
 	<website>http://www.coldtrick.com/</website>
 	<repository>https://github.com/ColdTrick/imagick</repository>

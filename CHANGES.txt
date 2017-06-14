@@ -1,2 +1,6 @@
 Version history
 ===============
+
+1.0 (2017-06-14):
+
+- added: basic plugin structure
